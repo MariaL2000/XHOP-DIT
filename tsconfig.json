@@ -26,9 +26,12 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.css",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "types/**/*.d.ts",
+    "**/*.mts",
+    "app/auth/route"
   ],
   "exclude": ["node_modules"]
 }

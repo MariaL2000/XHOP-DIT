@@ -1,26 +1,101 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+  /* footer y demas */
+  --brand-primary: #1d4ed8;
+  --brand-secondary: #3b82f6;
+  --brand-accent: #60a5fa;
+
+
+
+  /* Azul de enlaces */
+  --blue-save: #1e40af;
+  --color-gray-light: #F3F3F3;
+  /* hover gris */
+  --brand-black: #111827;
+  -color-white: #FFFFFF;
+  --hover-color: var(--color-gray-medium);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+
+@layer components {
+
+
+
+  .footer-stripe {
+    height: 6px;
+    transition: all 0.3s ease;
   }
 }
 
+/* Animación opcional para el punto 'Online' de WhatsApp */
+@keyframes pulse-green {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.animate-pulse-green {
+  animation: pulse-green 2s infinite;
+}
+
+.responsive-logo-container img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain;
+}
+
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom,
+      transparent,
+      rgb(var(--background-start-rgb))) rgb(var(--background-end-rgb));
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  -webkit-animation-duration: 0.5s;
+  animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
 }
