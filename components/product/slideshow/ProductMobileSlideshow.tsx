@@ -21,8 +21,8 @@ export const ProductMobileSlideshow = ({ images, title, className }: Props) => {
     <div className={className}>
       <Swiper
         style={{
-          width: "100vw",
-          height: "500px",
+          width: "100%",
+          height: "auto",
         }}
         pagination
         autoplay={{
@@ -38,7 +38,7 @@ export const ProductMobileSlideshow = ({ images, title, className }: Props) => {
               height={500}
               src={image}
               alt={title}
-              className="object-fill"
+              className="w-full object-contain"
             />
           </SwiperSlide>
         ))}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
@@ -6,16 +7,16 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 const slides = [
   {
-    url: "/banners/x1.png",
-    alt: "Nueva Colección Streetwear",
-  },
-  {
     url: "/banners/x2.png",
     alt: "Ofertas Exclusivas XHOP'DIT",
   },
   {
-    url: "/banners/x3.png",
-    alt: "Estilo Urbano 2024",
+    url: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1920&auto=format&fit=crop",
+    alt: "Nueva Colección Streetwear - XHOP'DIT",
+  },
+  {
+    url: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop",
+    alt: "Estilo Urbano 2026",
   },
 ];
 
@@ -52,15 +53,20 @@ export const HomeSlider = () => {
               alt={slide.alt}
               fill
               priority={index === 0}
-              className="object-cover object-center select-none"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1200px"
+              loading={index === 0 ? "eager" : "lazy"}
+              sizes="100vw"
+              className={`object-cover object-center select-none transition-opacity duration-500 ${
+                index === current ? "opacity-100" : "opacity-0"
+              }`}
               draggable={false}
+              {...(index === 0 && ({ fetchPriority: "high" } as any))}
             />
 
             <div className="absolute inset-0 bg-black/5 pointer-events-none" />
           </div>
         ))}
 
+        {/* Controles */}
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 hidden md:flex items-center justify-center bg-white/20 backdrop-blur-sm text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:text-black z-30"
@@ -77,6 +83,7 @@ export const HomeSlider = () => {
           <IoChevronForwardOutline size={22} />
         </button>
 
+        {/* Indicadores */}
         <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-30">
           {slides.map((_, i) => (
             <button

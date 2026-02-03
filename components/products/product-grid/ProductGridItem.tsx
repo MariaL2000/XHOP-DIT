@@ -26,9 +26,9 @@ export const ProductGridItem = ({ product }: Props) => {
           <ProductImage
             src={displayImage}
             alt={product.title}
-            width={600} // Aumentado para mejor resolución en Mac/Desktop
-            height={600}
-            className="w-full h-full aspect-4/5 object-cover transition-transform duration-1000 group-hover:scale-110"
+            width={600}
+            height={750}
+            className="w-full object-cover transition-transform duration-1000 group-hover:scale-110"
             onMouseEnter={() =>
               setDisplayImage(product.images[1] || product.images[0])
             }

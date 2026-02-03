@@ -84,7 +84,6 @@ export const useCartStore = create<State>()(
     {
       name: "shopping-cart",
       onRehydrateStorage: () => (state) => {
-        console.log("💧 Cart store rehidratada");
         if (state) state.setHasHydrated(true);
       },
     },

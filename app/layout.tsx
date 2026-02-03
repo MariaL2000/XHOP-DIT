@@ -5,20 +5,35 @@ import "./globals.css";
 import { Providers } from "@/components";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://xhop-dit.vercel.app",
+  ),
   title: {
-    template: "%s - Teslo | Shop",
-    default: "Home - Teslo | Shop",
+    default: "XHOP'DIT | Exclusive Fashion & Trends",
+    template: "%s | XHOP'DIT",
   },
-  description: "Una tienda virtual de productos",
+  description:
+    "Descubre la última moda urbana y tendencias exclusivas en XHOP'DIT. Calidad premium con envíos a todo el país.",
+  keywords: ["ecommerce", "moda", "ropa urbana", "XHOP'DIT", "tendencias"],
+  authors: [{ name: "XHOP'DIT Team" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    url: "https://xhop-dit.vercel.app/",
+    siteName: "XHOP'DIT",
+  },
 };
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>

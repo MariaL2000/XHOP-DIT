@@ -1,44 +1,31 @@
 import type { Metadata } from "next";
-import {
-  Footer,
-  Sidebar,
-  TopMenu,
-  HomeSlider,
-  ModernBanner,
-  InfoSection,
-} from "@/components";
+import { Footer, Sidebar, TopMenu, InfoSection } from "@/components";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ),
-  title: {
-    // Usamos comillas dobles afuera para poder usar la comilla simple adentro sin error
-    default: "XHOP'DIT | Exclusive Fashion & Trends",
-    template: "%s | XHOP'DIT",
-  },
+  title: "Tienda Oficial",
   description:
-    "Descubre la última moda urbana y tendencias exclusivas en XHOP'DIT. Calidad premium con envíos a todo el país.",
-  keywords: ["ecommerce", "moda", "ropa urbana", "XHOP'DIT", "tendencias 2026"],
-
-  // Corregido: Estructura de autores con comillas dobles
-  authors: [{ name: "XHOP'DIT Team" }],
-
+    "Explora nuestra colección exclusiva de ropa urbana. Encuentra sudaderas, camisetas y accesorios con diseños únicos y calidad premium.",
+  keywords: [
+    "comprar ropa urbana",
+    "moda exclusiva",
+    "XHOP'DIT tienda",
+    "streetwear España",
+  ],
   openGraph: {
-    title: "XHOP'DIT | Tu Estilo, Tu Regla",
+    title: "Catálogo Exclusivo | XHOP'DIT",
     description:
-      "La mejor selección de productos exclusivos. Vive la experiencia XHOP'DIT.",
-    siteName: "XHOP'DIT",
-    type: "website",
-    locale: "es_ES",
+      "Lo último en tendencia urbana. Envíos rápidos y pagos seguros.",
+    images: [
+      {
+        url: "/banners/sd.png",
+        width: 1200,
+        height: 630,
+        alt: "XHOP'DIT Shop Banner",
+      },
+    ],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "XHOP'DIT",
-    description: "Ecommerce moderno con Next.js",
-  },
-  robots: "index, follow",
 };
+
 export default function ShopLayout({
   children,
 }: {
@@ -49,22 +36,14 @@ export default function ShopLayout({
       <TopMenu />
       <Sidebar />
 
-      <section className="w-full">
-        <HomeSlider />
-      </section>
-
-      <div className="flex-1 w-full max-w-360 mx-auto transition-all duration-300 ease-in-out">
+      <div className="flex-1 w-full max-w-7xl mx-auto transition-all duration-300 ease-in-out">
         <div className="px-4 md:px-10 lg:px-16">
-          <div className="py-6 sm:py-10">
-            <ModernBanner />
-          </div>
-
           <div className="min-h-[50vh]">{children}</div>
         </div>
       </div>
 
       <div className="w-full mt-10 md:mt-20 border-t border-gray-100">
-        <div className="max-w-360 mx-auto px-4 md:px-10 lg:px-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-10 lg:px-16">
           <InfoSection />
         </div>
       </div>

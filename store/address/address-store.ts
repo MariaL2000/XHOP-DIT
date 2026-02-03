@@ -57,7 +57,7 @@ export const useAddressStore = create<State>()(
     {
       name: "address-storage",
       onRehydrateStorage: () => (state) => {
-        console.log("💧 Address store rehidratada");
+        
         if (state) state.setHasHydrated(true);
       },
     },

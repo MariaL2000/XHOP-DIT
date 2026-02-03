@@ -1,7 +1,13 @@
 export const revalidate = 60;
 
 import { getPaginatedProductsWithImages } from "@/actions";
-import { Pagination, ProductGrid, Title } from "@/components";
+import {
+  HomeSlider,
+  ModernBanner,
+  Pagination,
+  ProductGrid,
+  Title,
+} from "@/components";
 
 interface Props {
   searchParams: Promise<{
@@ -18,7 +24,11 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <div className="py-8">
-      {/* El título se adapta al contexto */}
+      <HomeSlider />
+
+      <div className="py-6 sm:py-10">
+        <ModernBanner />
+      </div>
       <Title
         title="Colección Destacada"
         subtitle="Los favoritos de la comunidad XHOP'DIT"

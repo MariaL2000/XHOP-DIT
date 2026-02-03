@@ -1,53 +1,28 @@
 .swiper-slide {
-
-    /* Center slide text vertically */
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
+
 
 .swiper-slide img {
     display: block;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+}
+
+.mySwiper2 {
     width: 100%;
-    height: auto;
-    object-fit: contain;
+    border-radius: 1rem;
 }
-
-
-.swiper {
-    width: 100%;
-    height: auto;
-    /* dejar que la altura se ajuste al contenido */
-    max-height: 600px;
-    /* limitar altura máxima en desktop */
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-.swiper-slide {
-    background-size: cover;
-    background-position: center;
-}
-
-
-.mySwiper {
-    height: 20%;
-    box-sizing: border-box;
-    padding: 10px 0;
-}
-
-.mySwiper .swiper-slide {
-    width: 25%;
-    height: 100%;
-    opacity: 0.4;
-}
-
-.mySwiper .swiper-slide-thumb-active {
-    opacity: 1;
-}
-
 
 @media (max-width: 768px) {
-    .swiper {
-        max-height: none;
+    .mySwiper2 {
+        height: 400px;
+    }
+
+    .mySwiper2 img {
+        object-fit: contain;
     }
 }
