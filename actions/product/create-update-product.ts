@@ -8,10 +8,6 @@ import { z } from "zod";
 
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
-/* ===============================
-   VALIDACIÓN
-=================================*/
-
 const productSchema = z.object({
   id: z.string().uuid().optional().nullable(),
   title: z.string().min(3),
@@ -27,10 +23,6 @@ const productSchema = z.object({
 
 export const createUpdateProduct = async (formData: FormData) => {
   try {
-    /* ===============================
-       Convertir correctamente FormData
-    =================================*/
-
     const raw = Object.fromEntries(formData.entries());
 
     const dataToValidate = {
@@ -54,19 +46,11 @@ export const createUpdateProduct = async (formData: FormData) => {
 
     const normalizedSlug = rest.slug.toLowerCase().replace(/ /g, "-").trim();
 
-    /* ===============================
-       Construir objeto compatible Prisma
-    =================================*/
-
     const prismaData: Prisma.ProductUncheckedCreateInput = {
       ...rest,
       slug: normalizedSlug,
       tags: tags.split(",").map((t) => t.trim().toLowerCase()),
     };
-
-    /* ===============================
-       1️⃣ Crear o actualizar
-    =================================*/
 
     const product = id
       ? await prisma.product.update({
@@ -76,10 +60,6 @@ export const createUpdateProduct = async (formData: FormData) => {
       : await prisma.product.create({
           data: prismaData,
         });
-
-    /* ===============================
-       2️⃣ Manejo imágenes (máximo 2)
-    =================================*/
 
     const imagesFiles = formData.getAll("images") as File[];
 
@@ -126,10 +106,6 @@ export const createUpdateProduct = async (formData: FormData) => {
       }
     }
 
-    /* ===============================
-       Revalidaciones
-    =================================*/
-
     revalidatePath("/admin/products");
     revalidatePath(`/admin/product/${product.slug}`);
     revalidatePath(`/products/${product.slug}`);
@@ -140,37 +116,6 @@ export const createUpdateProduct = async (formData: FormData) => {
     return {
       ok: false,
       message: "No se pudo guardar el producto",
-    };
-  }
-};
-
-/* ===============================
-   DELETE IMAGE
-=================================*/
-
-export const deleteProductImage = async (imageId: number, imageUrl: string) => {
-  try {
-    const publicId = imageUrl.split("/").slice(-2).join("/").split(".")[0];
-
-    await cloudinary.uploader.destroy(publicId);
-
-    const deleted = await prisma.productImage.delete({
-      where: { id: imageId },
-      select: {
-        product: { select: { slug: true } },
-      },
-    });
-
-    revalidatePath("/admin/products");
-    revalidatePath(`/admin/product/${deleted.product.slug}`);
-    revalidatePath(`/products/${deleted.product.slug}`);
-
-    return { ok: true };
-  } catch (error) {
-    console.error(error);
-    return {
-      ok: false,
-      message: "No se pudo eliminar la imagen",
     };
   }
 };
