@@ -5,20 +5,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl =
     process.env.NEXT_PUBLIC_SITE_URL || "https://xhop-dit.vercel.app";
 
-  // Opcional: Traer todos tus productos para que Google los indexe uno por uno
   const products = await prisma.product.findMany({
-    select: { slug: true, updatedAt: true },
+    select: {
+      slug: true,
+    },
   });
 
   const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
     url: `${baseUrl}/product/${product.slug}`,
-    lastModified: product.updatedAt,
+    // Usamos la fecha actual o una fija si el campo no existe en la BD
+    lastModified: new Date(),
+    changeFrequency: "daily",
+    priority: 0.7,
   }));
 
   return [
     {
       url: baseUrl,
       lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 1,
     },
     ...productEntries,
   ];
