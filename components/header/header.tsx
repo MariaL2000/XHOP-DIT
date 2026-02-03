@@ -15,7 +15,7 @@ const slides = [
     alt: "Nueva Colección Streetwear - XHOP'DIT",
   },
   {
-    url: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop",
+    url: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     alt: "Estilo Urbano 2026",
   },
 ];

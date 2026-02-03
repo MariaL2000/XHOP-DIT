@@ -23,7 +23,7 @@ export const TopMenu = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -38,78 +38,75 @@ export const TopMenu = () => {
   ];
 
   return (
-    <nav
-      className={clsx(
-        "sticky top-0 z-50 w-full transition-all duration-300 bg-white",
-        scrolled ? "shadow-md py-2" : "py-4",
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        {/* Fila Principal */}
-        <div className="flex justify-between items-center gap-4">
-          <Link
-            href="/"
-            className="hover:scale-105 transition-transform shrink-0"
+    <nav className="sticky top-0 z-50 w-full bg-white shadow-sm transition-all">
+      <div
+        className={clsx(
+          "max-w-7xl mx-auto px-4 flex items-center justify-between gap-4 transition-all",
+          scrolled ? "h-14" : "h-16",
+        )}
+      >
+        <Link href="/" className="hover:opacity-80 transition-opacity shrink-0">
+          <LogoBrand fontSize="text-xl sm:text-2xl" />
+        </Link>
+
+        <div className="hidden md:block flex-1 max-w-2xl">
+          <SearchBar />
+        </div>
+
+        <div className="flex items-center gap-2 sm:gap-4">
+          <button
+            onClick={() => setIsSearchOpen(!isSearchOpen)}
+            className="md:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-full"
           >
-            <LogoBrand fontSize="text-xl sm:text-2xl" />
+            {isSearchOpen ? (
+              <IoCloseOutline size={24} />
+            ) : (
+              <IoSearchOutline size={24} />
+            )}
+          </button>
+
+          <Link
+            href={totalItemsInCart === 0 ? "/empty" : "/cart"}
+            className="relative p-2 text-gray-700"
+          >
+            {totalItemsInCart > 0 && (
+              <span className="absolute top-0 right-0 bg-(--brand-black) text-white text-[10px] px-1.5 rounded-full font-bold">
+                {totalItemsInCart}
+              </span>
+            )}
+            <IoCartOutline size={26} />
           </Link>
 
-          <SearchBar className="hidden md:block flex-1 max-w-md" />
-
-          <div className="flex items-center gap-1 sm:gap-2">
-            <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-full transition-colors"
-            >
-              {isSearchOpen ? (
-                <IoCloseOutline size={24} />
-              ) : (
-                <IoSearchOutline size={24} />
-              )}
-            </button>
-
-            <Link
-              href={totalItemsInCart === 0 ? "/empty" : "/cart"}
-              className="relative p-2"
-            >
-              {totalItemsInCart > 0 && (
-                <span className="absolute top-1 right-1 bg-black text-white text-[10px] px-1.5 rounded-full font-bold">
-                  {totalItemsInCart}
-                </span>
-              )}
-              <IoCartOutline size={24} />
-            </Link>
-
-            <button
-              onClick={openSideMenu}
-              className="p-2 bg-black text-white rounded-full hover:opacity-80 transition-all ml-1"
-            >
-              <IoMenuOutline size={22} />
-            </button>
-          </div>
+          <button
+            onClick={openSideMenu}
+            className="flex items-center gap-1 p-1 sm:p-2 bg-(--brand-black) text-white rounded-full sm:rounded-lg transition-transform active:scale-95"
+          >
+            <IoMenuOutline size={24} />
+          </button>
         </div>
+      </div>
 
-        {/* Mobile Search - Slide down */}
-        <div
-          className={clsx(
-            "md:hidden overflow-hidden transition-all duration-300 ease-in-out",
-            isSearchOpen ? "max-h-20 opacity-100 mt-4" : "max-h-0 opacity-0",
-          )}
-        >
-          <SearchBar onResultClick={() => setIsSearchOpen(false)} />
-        </div>
+      <div
+        className={clsx(
+          "md:hidden px-4 bg-white transition-all duration-300",
 
-        {/* Categorías - Hacemos que sea un scroll horizontal en mobile para ahorrar espacio vertical */}
-        <div className="flex justify-center md:justify-center gap-2 sm:gap-4 mt-4 text-xs sm:text-sm font-medium overflow-x-auto no-scrollbar whitespace-nowrap pb-1">
+          isSearchOpen
+            ? "opacity-100 h-auto py-3 border-t border-gray-100 visible"
+            : "opacity-0 h-0 overflow-hidden invisible",
+        )}
+      >
+        <SearchBar onResultClick={() => setIsSearchOpen(false)} />
+      </div>
+
+      <div className="w-full bg-(--brand-black) text-white">
+        <div className="max-w-7xl mx-auto px-4 flex items-center h-12 overflow-x-auto no-scrollbar gap-6 text-xs font-bold uppercase tracking-wider">
           {genderLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className={clsx(
-                "hover:text-black transition-colors px-2 py-1 shrink-0",
-                pathname === link.href
-                  ? "text-black border-b-2 border-black"
-                  : "text-gray-500",
+                "hover:text-white/80 transition-colors whitespace-nowrap py-2 border-b-2",
+                pathname === link.href ? "border-white" : "border-transparent",
               )}
             >
               {link.label}

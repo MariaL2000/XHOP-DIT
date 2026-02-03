@@ -6,7 +6,7 @@ import bcryptjs from "bcryptjs";
 export const registerUser = async (
   name: string,
   email: string,
-  password: string
+  password: string,
 ) => {
   try {
     const user = await prisma.user.create({
@@ -27,12 +27,21 @@ export const registerUser = async (
       user: user,
       message: "Usuario creado",
     };
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
 
+    // Capturamos el error P2002 (Email duplicado)
+    if (error.code === "P2002") {
+      return {
+        ok: false,
+        message: "Este correo electrónico ya está en uso.",
+      };
+    }
+
+    // Cualquier otro error de base de datos
     return {
       ok: false,
-      message: "No se pudo crear el usuario",
+      message: "No se pudo crear el usuario. Por favor, intenta más tarde.",
     };
   }
 };
