@@ -6,15 +6,15 @@ import { IoChevronBackOutline, IoChevronForwardOutline } from "react-icons/io5";
 
 const slides = [
   {
-    url: "/banners/x1.PNG",
+    url: "/banners/x1.png",
     alt: "Nueva Colección Streetwear",
   },
   {
-    url: "/banners/x2.PNG",
+    url: "/banners/x2.png",
     alt: "Ofertas Exclusivas XHOP'DIT",
   },
   {
-    url: "/banners/x3.PNG",
+    url: "/banners/x3.png",
     alt: "Estilo Urbano 2024",
   },
 ];

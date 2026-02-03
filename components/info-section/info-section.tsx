@@ -9,17 +9,17 @@ export const InfoSection = () => {
     {
       title: "Calidad Premium",
       desc: "Telas seleccionadas para durabilidad y confort máximo.",
-      image: "/banners/Info1.JPG", // Ajusta a tus nombres reales
+      image: "/banners/Info1.jpg", // Ajusta a tus nombres reales
     },
     {
       title: "Diseño Exclusivo",
       desc: "Ediciones limitadas que no encontrarás en otro lugar.",
-      image: "/banners/Info2.PNG",
+      image: "/banners/Info2.png",
     },
     {
       title: "Envío Rápido",
       desc: "Logística optimizada para que estrenes lo antes posible.",
-      image: "/banners/Info3.PNG",
+      image: "/banners/Info3.png",
     },
   ];
 
