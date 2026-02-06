@@ -2,7 +2,6 @@ import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { streamText } from "ai";
 import { prisma } from "@/lib/prisma";
 
-// Configuramos el proveedor apuntando a la versión estable
 const google = createGoogleGenerativeAI({
   apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
 });
@@ -22,10 +21,7 @@ export async function POST(req: Request) {
       .join("\n");
 
     const result = await streamText({
-      // USAMOS EL MODELO DE TU LISTA: Gemini 2.5 Flash
       model: google("gemini-2.5-flash"),
-      // Eliminamos la propiedad 'system' y la pasamos como mensaje
-      // para evitar el error "Unknown name systemInstruction"
       messages: [
         {
           role: "system",

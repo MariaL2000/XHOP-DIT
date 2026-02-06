@@ -21,7 +21,7 @@ export default function Chat() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +51,7 @@ export default function Chat() {
         ...prev,
         { id: assistantId, role: "assistant", content: "" },
       ]);
+
       let accumulatedContent = "";
 
       if (reader) {
@@ -85,35 +86,17 @@ export default function Chat() {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-9999 font-sans">
-      {/* Botón Flotante - Icono Sólido Brand Black */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-3 p-3 md:p-4 rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 text-white border border-white/30"
-        style={{
-          backgroundColor: "var(--brand-color)",
-          backdropFilter: "blur(8px)",
-          WebkitBackdropFilter: "blur(8px)",
-        }}
-      >
-        {/* Contenedor del icono con alto contraste */}
-        <div
-          className="relative bg-white p-2 rounded-xl shadow-inner flex items-center justify-center"
-          style={{ color: "var(--brand-black)" }}
-        >
-          <SiProbot className="text-xl md:text-2xl" />
-        </div>
-
-        <span className="relative font-bold text-black  text-xs md:text-sm tracking-tight pr-1">
-          {isOpen ? "Cerrar" : "¿Puedo ayudarte?"}
-        </span>
-      </button>
-
+    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-9999 font-sans flex flex-col items-end">
+      {/* Ventana del Chat */}
       {isOpen && (
-        <div className="absolute bottom-16 right-0 md:bottom-20 w-[calc(100vw-2rem)] sm:w-96 h-125 md:h-150 bg-white border border-gray-200 rounded-4xl shadow-[0_25px_60px_rgba(0,0,0,0.15)] flex flex-col overflow-hidden animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300">
-          {/* Header Sólido para legibilidad */}
+        <div
+          className="mb-4 w-[calc(100vw-2rem)] sm:w-100 flex flex-col bg-white border border-gray-200 rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.15)] overflow-hidden animate-in fade-in zoom-in slide-in-from-bottom-5 duration-300
+         
+          h-125 max-h-[calc(100vh-120px)] md:h-150"
+        >
+          {/* Header */}
           <div
-            className="p-5 text-white flex items-center justify-between"
+            className="p-4 text-white flex items-center justify-between shrink-0"
             style={{ backgroundColor: "var(--brand-color)" }}
           >
             <div className="flex items-center gap-3">
@@ -124,28 +107,34 @@ export default function Chat() {
                 <SiProbot className="text-xl" />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-xs uppercase tracking-widest">
+                <span className="font-bold text-xs uppercase tracking-widest leading-none">
                   Asistente Virtual
                 </span>
-                <span className="text-[10px] opacity-80">
+                <span className="text-[10px] opacity-80 mt-1">
                   XHOPDIT AI • En línea
                 </span>
               </div>
             </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="md:hidden text-white/80 hover:text-white"
+            >
+              ✕
+            </button>
           </div>
 
-          {/* Área de Mensajes */}
+          {/* Área de Mensajes - Flex grow para ocupar el espacio central */}
           <div
             ref={scrollRef}
-            className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50"
+            className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50/50 scroll-smooth"
           >
             {messages.length === 0 && (
               <div
-                className="flex flex-col items-center justify-center h-full opacity-30"
+                className="flex flex-col items-center justify-center h-full opacity-30 text-center"
                 style={{ color: "var(--brand-black)" }}
               >
                 <SiProbot className="text-5xl mb-3" />
-                <p className="text-xs font-bold uppercase tracking-tighter">
+                <p className="text-xs font-bold uppercase tracking-widest">
                   ¡Hola! ¿Cómo puedo ayudarte?
                 </p>
               </div>
@@ -157,19 +146,11 @@ export default function Chat() {
                 className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  style={{
-                    backgroundColor:
-                      m.role === "user"
-                        ? "var(--brand-color)"
-                        : "var(--brand-color)",
-                    color:
-                      m.role === "user"
-                        ? "var(--brand-black)"
-                        : "var(--brand-black)",
-                  }}
-                  className={`max-w-[85%] p-4 rounded-2xl text-sm shadow-sm border ${
-                    m.role === "user" ? "border-transparent" : "border-gray-200"
-                  } ${m.role === "user" ? "rounded-tr-none" : "rounded-tl-none"}`}
+                  className={`max-w-[85%] p-3 rounded-2xl text-sm shadow-sm border ${
+                    m.role === "user"
+                      ? "bg-(--brand-color) text-(--brand-black) border-transparent rounded-tr-none"
+                      : "bg-white text-gray-800 border-gray-200 rounded-tl-none"
+                  }`}
                 >
                   {m.content}
                 </div>
@@ -177,61 +158,61 @@ export default function Chat() {
             ))}
 
             {isLoading && (
-              <div className="flex gap-1.5 p-4 items-center">
-                <div
-                  className="w-2 h-2 rounded-full animate-bounce"
-                  style={{ backgroundColor: "var(--brand-color)" }}
-                />
-                <div
-                  className="w-2 h-2 rounded-full animate-bounce [animation-delay:-0.15s]"
-                  style={{ backgroundColor: "var(--brand-color)" }}
-                />
-                <div
-                  className="w-2 h-2 rounded-full animate-bounce [animation-delay:-0.3s]"
-                  style={{ backgroundColor: "var(--brand-color)" }}
-                />
+              <div className="flex gap-1.5 p-2 items-center">
+                <div className="w-1.5 h-1.5 rounded-full animate-bounce bg-(--brand-color)" />
+                <div className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.15s] bg-(--brand-color)" />
+                <div className="w-1.5 h-1.5 rounded-full animate-bounce [animation-delay:-0.3s] bg-(--brand-color)" />
               </div>
             )}
           </div>
 
+          {/* Formulario - Fijo al fondo */}
           <form
             onSubmit={sendMessage}
-            className="p-4 bg-white border-t border-gray-100"
+            className="p-4 bg-white border-t border-gray-100 shrink-0"
           >
-            <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl focus-within:ring-2 focus-within:ring-gray-200 transition-all">
+            <div className="flex items-center gap-2 bg-gray-100 p-1.5 rounded-2xl focus-within:ring-2 focus-within:ring-(--brand-color)/30 transition-all">
               <input
                 type="text"
                 autoComplete="off"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Escribe un mensaje..."
-                style={{ color: "var(--brand-black)" }}
                 className="flex-1 bg-transparent text-black p-2 text-sm outline-none placeholder:text-gray-400 font-medium"
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
                 style={{ backgroundColor: "var(--brand-black)" }}
-                className="
-    flex items-center justify-center gap-2 
-    px-5 py-2.5 
-    rounded-full 
-    text-white text-sm font-bold 
-    tracking-tight
-    transition-all duration-200 
-    hover:opacity-90 hover:shadow-md
-    active:scale-95 
-    disabled:opacity-20 disabled:cursor-not-allowed
-    shadow-sm
-  "
+                className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90 active:scale-95 disabled:opacity-20 shadow-sm"
               >
                 <SiProbot className="text-base" />
-                <span className="leading-none">Enviar</span>
+                <span className="hidden sm:inline">Enviar</span>
               </button>
             </div>
           </form>
         </div>
       )}
+
+      {/* Botón Flotante */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-3 p-3 md:p-4 rounded-2xl shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 text-white border border-white/30"
+        style={{
+          backgroundColor: "var(--brand-color)",
+          backdropFilter: "blur(8px)",
+        }}
+      >
+        <div
+          className="bg-white p-2 rounded-xl shadow-inner flex items-center justify-center"
+          style={{ color: "var(--brand-black)" }}
+        >
+          <SiProbot className="text-xl md:text-2xl" />
+        </div>
+        <span className="font-bold text-black text-xs md:text-sm tracking-tight pr-1">
+          {isOpen ? "Cerrar" : "¿Puedo ayudarte?"}
+        </span>
+      </button>
     </div>
   );
 }
