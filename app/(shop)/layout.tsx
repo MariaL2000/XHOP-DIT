@@ -6,10 +6,11 @@ export const metadata: Metadata = {
   description:
     "Explora nuestra colección exclusiva de ropa urbana. Encuentra sudaderas, camisetas y accesorios con diseños únicos y calidad premium.",
   keywords: [
-    "comprar ropa urbana",
-    "moda exclusiva",
+    "xhop dit",
+    "moda xhopdit",
     "XHOP'DIT tienda",
-    "streetwear España",
+    "XHOP'DIT",
+    "xhopdit",
   ],
   openGraph: {
     title: "Catálogo Exclusivo | XHOP'DIT",

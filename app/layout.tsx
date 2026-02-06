@@ -3,6 +3,7 @@ import { inter } from "@/config/fonts";
 
 import "./globals.css";
 import { Providers } from "@/components";
+import ChatWrapper from "@/components/chat/ChatWrapper";
 
 export const metadata: Metadata = {
   metadataBase: new URL(
@@ -14,7 +15,16 @@ export const metadata: Metadata = {
   },
   description:
     "Descubre la última moda urbana y tendencias exclusivas en XHOP'DIT. Calidad premium con envíos a todo el país.",
-  keywords: ["ecommerce", "moda", "ropa urbana", "XHOP'DIT", "tendencias"],
+  keywords: [
+    "ecommerce xhop dit",
+    "moda shop dit",
+    "ropa urbana xhop dit",
+    "XHOP'DIT",
+    "xhopdit",
+    "xhop dit",
+    "shop dit",
+    "tendencias XHOP'DIT",
+  ],
   authors: [{ name: "XHOP'DIT Team" }],
   robots: {
     index: true,
@@ -35,7 +45,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <ChatWrapper />
+        </Providers>
       </body>
     </html>
   );

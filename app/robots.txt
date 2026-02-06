@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://xhop-dit.vercel.app/sitemap.xml

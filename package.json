@@ -12,10 +12,13 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.21",
+    "@ai-sdk/react": "^3.0.74",
     "@auth/prisma-adapter": "^2.11.1",
     "@paypal/react-paypal-js": "^8.9.2",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.3.0",
+    "ai": "^6.0.72",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.9.0",
     "clsx": "^2.1.1",
