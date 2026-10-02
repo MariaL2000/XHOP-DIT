@@ -12,7 +12,7 @@ import {
 import { LogoBrand } from "@/components";
 
 export const Footer = () => {
-  const whatsappNumber = "5351834749";
+  const whatsappNumber = process.env.WHATSAPP_NUMBER;
 
   // DEFINICIÓN DE COLORES (CSS VARIABLES INLINE)
   const brandTheme = {
@@ -71,20 +71,27 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* Columna 2: Navegación */}
+          {/* Columna 2: Navegación actualizada con las nuevas categorías */}
           <div className="md:col-span-3">
             <h4 className="font-bold text-gray-900 uppercase text-xs tracking-[0.2em] mb-8 flex items-center gap-2">
               <span className="w-8 h-px bg-(--brand-secondary)"></span>
               Explorar
             </h4>
-            <ul className="space-y-4 text-gray-500 font-medium">
-              {["Men", "Women", "Kid", "Unisex"].map((item) => (
-                <li key={item}>
+            <ul className="space-y-3 text-gray-500 font-medium text-sm">
+              {[
+                { name: "Men", path: "men" },
+                { name: "Women", path: "women" },
+                { name: "Unisex", path: "unisex" },
+                { name: "Libros", path: "books" },
+                { name: "Comida", path: "food" },
+                { name: "Tecnología", path: "technologies" },
+              ].map((item) => (
+                <li key={item.path}>
                   <Link
-                    href={`/gender/${item.toLowerCase()}`}
+                    href={`/gender/${item.path}`}
                     className="hover:text-(--brand-secondary) transition-colors"
                   >
-                    {item}
+                    {item.name}
                   </Link>
                 </li>
               ))}

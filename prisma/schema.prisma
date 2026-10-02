@@ -20,8 +20,18 @@ enum Size {
 enum Gender {
   men
   women
-  kid
   unisex
+  food
+  books
+  technologies
+}
+
+enum ProductType {
+  clothes
+  accessories
+  books
+  food
+  technologies
 }
 
 enum Role {
@@ -35,13 +45,6 @@ model Category {
   Product Product[]
 }
 
-enum ProductType {
-  Clothes
-  Technologies
-  Food
-  Accessories
-}
-
 model Product {
   id          String      @id @default(uuid())
   title       String
@@ -52,7 +55,7 @@ model Product {
   slug        String      @unique
   tags        String[]    @default([])
   gender      Gender
-  type        ProductType @default(Clothes)
+  type        ProductType @default(clothes)
 
   deleted Boolean @default(false)
 

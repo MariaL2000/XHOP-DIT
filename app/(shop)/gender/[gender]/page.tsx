@@ -1,18 +1,17 @@
 import { getPaginatedProductsWithImages } from "@/actions";
-import {
-  Pagination,
-  ProductGrid,
-  Title,
-  ProductTypeNavbar,
-} from "@/components";
+import { Pagination, ProductGrid, Title } from "@/components";
 import { Gender } from "@/app/generated/prisma";
 import { prisma } from "@/lib/prisma";
 
-const labels: Record<Gender, string> = {
+// 🟢 1. Añadidas todas las nuevas opciones para evitar errores de tipo o undefined
+const labels: Record<string, string> = {
   men: "para hombres",
   women: "para mujeres",
   kid: "para niños",
   unisex: "para todos",
+  books: "de libros",
+  food: "de comida",
+  technologies: "de tecnología",
 };
 
 interface Props {
@@ -30,8 +29,7 @@ export default async function GenderPage({ params, searchParams }: Props) {
   const gender = genderParam as Gender;
   const currentPage = page ? Number(page) : 1;
 
-  // Obtenemos productos y categorías en paralelo para mayor velocidad
-  const [{ products, totalPages }, categories] = await Promise.all([
+  const [{ products, totalPages }] = await Promise.all([
     getPaginatedProductsWithImages({
       page: currentPage,
       gender,
@@ -41,31 +39,23 @@ export default async function GenderPage({ params, searchParams }: Props) {
   ]);
 
   return (
-    <>
+    <div className="container mx-auto px-3 sm:px-5 mb-16">
       <Title
         title={`Artículos ${labels[gender] || "Generales"}`}
-        subtitle="Filtra por categoría"
-        className="px-3 sm:px-5"
+        className="mb-4"
       />
 
-      {/* El Navbar ahora recibe las categorías de la DB */}
-      <ProductTypeNavbar
-        gender={gender}
-        currentCategory={categoryId}
-        categories={categories}
-      />
+      {/* 🟢 2. Se removió el ProductTypeNavbar redundante */}
 
-      <div className="px-3 sm:px-5">
-        {products.length === 0 ? (
-          <div className="text-center mt-10 text-gray-500">
-            No hay productos en esta categoría para {labels[gender]}.
-          </div>
-        ) : (
-          <ProductGrid products={products} />
-        )}
-      </div>
+      {products.length === 0 ? (
+        <div className="text-center mt-12 text-gray-500">
+          No hay productos disponibles en esta sección.
+        </div>
+      ) : (
+        <ProductGrid products={products} />
+      )}
 
       <Pagination totalPages={totalPages} />
-    </>
+    </div>
   );
 }

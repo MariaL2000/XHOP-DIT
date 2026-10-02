@@ -18,7 +18,8 @@ import { ProductImage } from "@/components";
 
 interface Props {
   product: Partial<
-    Omit<Product, "category"> & {
+    Omit<Product, "category" | "gender"> & {
+      gender?: string;
       categoryId?: string;
       ProductImage?: ProductWithImage[];
     }
@@ -36,7 +37,7 @@ interface FormInputs {
   inStock: number;
   sizes: string[];
   tags: string;
-  gender: "men" | "women" | "kid" | "unisex";
+  gender: "men" | "women" | "unisex" | "food" | "books" | "technologies";
   categoryId: string;
 }
 
@@ -59,7 +60,7 @@ export const ProductForm = ({ product, categories }: Props) => {
         price: product.price ?? 0,
         inStock: product.inStock ?? 0,
         tags: product.tags?.join(",") ?? "",
-        gender: product.gender ?? "unisex",
+        gender: (product.gender as any) ?? "unisex",
         sizes: product.sizes ?? [],
         categoryId: product.categoryId ?? "",
       },
@@ -82,7 +83,6 @@ export const ProductForm = ({ product, categories }: Props) => {
     if (!e.target.files) return;
 
     const filesArray = Array.from(e.target.files);
-
     const allowedFiles = filesArray.slice(0, remainingSlots);
 
     setSelectedImages((prev) => [...prev, ...allowedFiles].slice(0, 2));
@@ -154,27 +154,35 @@ export const ProductForm = ({ product, categories }: Props) => {
           </label>
         ))}
 
+        {/* 1. Sección Principal (Menú superior: Men, Food, Books, etc.) */}
         <label className="flex flex-col">
-          <span className="font-semibold">Gender</span>
+          <span className="font-semibold">
+            Sección Principal (Menú superior)
+          </span>
           <select
             {...register("gender", { required: true })}
             className="p-2 border rounded-md bg-gray-100"
           >
-            <option value="">[Seleccione]</option>
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="kid">Kid</option>
+            <option value="">[Seleccione sección]</option>
+            <option value="men">Hombres</option>
+            <option value="women">Mujeres</option>
             <option value="unisex">Unisex</option>
+            <option value="books">Libros</option>
+            <option value="food">Comida</option>
+            <option value="technologies">Tecnología</option>
           </select>
         </label>
 
+        {/* 2. Categoría interna obligatoria para la base de datos */}
         <label className="flex flex-col">
-          <span className="font-semibold">Category</span>
+          <span className="font-semibold">
+            Tipo de Artículo (Categoría interna)
+          </span>
           <select
             {...register("categoryId", { required: true })}
             className="p-2 border rounded-md bg-gray-100"
           >
-            <option value="">[Seleccione]</option>
+            <option value="">[Seleccione tipo]</option>
             {categories.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.name}
@@ -240,7 +248,7 @@ export const ProductForm = ({ product, categories }: Props) => {
           </label>
         )}
 
-        {/* ====== NUEVAS IMÁGENES (PREVIEW + DELETE) ====== */}
+        {/* ====== NUEVAS IMÁGENES ====== */}
         {selectedImages.length > 0 && (
           <div className="grid grid-cols-2 gap-3">
             {selectedImages.map((file, idx) => (

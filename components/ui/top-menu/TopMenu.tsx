@@ -30,11 +30,14 @@ export const TopMenu = () => {
 
   if (!mounted) return null;
 
+  // 🟢 Enlaces actualizados incluyendo los nuevos géneros / tipos de artículos
   const genderLinks = [
     { href: "/gender/men", label: "Hombres" },
     { href: "/gender/women", label: "Mujeres" },
-    { href: "/gender/kid", label: "Niños" },
     { href: "/gender/unisex", label: "Unisex" },
+    { href: "/gender/books", label: "Libros" },
+    { href: "/gender/food", label: "Comida" },
+    { href: "/gender/technologies", label: "Tecnología" },
   ];
 
   return (
@@ -89,7 +92,6 @@ export const TopMenu = () => {
       <div
         className={clsx(
           "md:hidden px-4 bg-white transition-all duration-300",
-
           isSearchOpen
             ? "opacity-100 h-auto py-3 border-t border-gray-100 visible"
             : "opacity-0 h-0 overflow-hidden invisible",
@@ -98,6 +100,7 @@ export const TopMenu = () => {
         <SearchBar onResultClick={() => setIsSearchOpen(false)} />
       </div>
 
+      {/* 📱 Barra inferior responsiva con scroll horizontal optimizado para móviles y desktop */}
       <div className="w-full bg-(--brand-black) text-white">
         <div className="max-w-7xl mx-auto px-4 flex items-center h-12 overflow-x-auto no-scrollbar gap-6 text-xs font-bold uppercase tracking-wider">
           {genderLinks.map((link) => (

@@ -4,20 +4,19 @@ import { redirect } from "next/navigation";
 import { ProductForm } from "./ui/ProductForm";
 
 interface Props {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
-  const [product, categories] = await Promise.all([
-    getProductBySlug(slug),
-    getCategories(),
-  ]);
+  // Si el slug es "new", no buscamos ningún producto en la base de datos
+  const product = slug === "new" ? null : await getProductBySlug(slug);
+  const categories = await getCategories();
 
-  // Todo: new
+  // Si no existe el producto y tampoco es "new", redirigimos
   if (!product && slug !== "new") {
     redirect("/admin/products");
   }

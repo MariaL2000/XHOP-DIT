@@ -10,6 +10,16 @@ interface Props {
   products: any[];
 }
 
+// 🟢 Diccionario para mostrar nombres limpios y en español en la tabla del admin
+const genderLabels: Record<string, string> = {
+  men: "Hombres",
+  women: "Mujeres",
+  unisex: "Unisex",
+  books: "Libros",
+  food: "Comida",
+  technologies: "Tecnología",
+};
+
 export default function ProductTable({ products }: Props) {
   const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -29,7 +39,7 @@ export default function ProductTable({ products }: Props) {
         return;
       }
 
-      // 🔥 recarga total como pediste
+      // 🔥 recarga total
       window.location.reload();
     } finally {
       setLoadingId(null);
@@ -60,17 +70,21 @@ export default function ProductTable({ products }: Props) {
           <td className="text-gray-900 px-4 py-3">
             <Link
               href={`/admin/product/${product.slug}`}
-              className="hover:underline"
+              className="hover:underline font-medium"
             >
               {product.title}
             </Link>
           </td>
 
           {/* Precio */}
-          <td className="text-gray-900 font-bold px-4 py-3">{product.price}</td>
+          <td className="text-gray-900 font-bold px-4 py-3">
+            ${product.price}
+          </td>
 
-          {/* Género */}
-          <td className="text-gray-900 px-4 py-3">{product.gender}</td>
+          {/* Género / Categoría General traducida */}
+          <td className="text-gray-900 px-4 py-3 capitalize">
+            {genderLabels[product.gender] || product.gender}
+          </td>
 
           {/* Inventario */}
           <td className="text-gray-900 font-bold px-4 py-3">
@@ -78,8 +92,8 @@ export default function ProductTable({ products }: Props) {
           </td>
 
           {/* Tallas */}
-          <td className="text-gray-900 font-bold px-4 py-3">
-            {product.sizes?.join(", ")}
+          <td className="text-gray-900 px-4 py-3 text-xs font-semibold">
+            {product.sizes?.length > 0 ? product.sizes.join(", ") : "N/A"}
           </td>
 
           {/* Acción */}
@@ -87,7 +101,7 @@ export default function ProductTable({ products }: Props) {
             <button
               onClick={() => handleDelete(product.id)}
               disabled={loadingId === product.id}
-              className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition disabled:opacity-50"
+              className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition disabled:opacity-50 text-sm"
             >
               {loadingId === product.id ? "Eliminando..." : "Eliminar"}
             </button>
