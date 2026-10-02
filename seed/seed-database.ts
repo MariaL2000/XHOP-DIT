@@ -44,7 +44,7 @@ async function main() {
 
   // 5. Insertar Productos y sus Imágenes
   for (const product of products) {
-    const { type, images, ...rest } = product;
+    const { type, gender, images, ...rest } = product;
 
     // Buscamos el ID de la categoría correspondiente al tipo del producto
     const categoryId = categoriesMap[type] || categoriesMap["clothes"];
@@ -53,6 +53,7 @@ async function main() {
       data: {
         ...rest,
         type: type as any,
+        gender: gender as any, // 👈 Solución para que acepte el valor de gender sin problemas de tipos
         categoryId: categoryId,
       },
     });
@@ -71,7 +72,7 @@ async function main() {
   console.log("Seed ejecutado correctamente");
 }
 
-// 🟢 BLOQUE FINAL CORREGIDO
+// 🟢 BLOQUE FINAL
 (async () => {
   if (process.env.NODE_ENV === "production") return;
 
