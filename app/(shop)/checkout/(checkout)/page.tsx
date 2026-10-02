@@ -8,7 +8,7 @@ import { useMemo, useState } from "react";
 import { useAddressStore, useCartStore } from "@/store";
 import { currencyFormat } from "@/utils";
 
-export const PlaceOrder = () => {
+export default function PlaceOrder() {
   // const router = useRouter();
 
   // const [errorMessage, setErrorMessage] = useState("");
@@ -99,7 +99,7 @@ export const PlaceOrder = () => {
 
   // 🟢 NUEVA FUNCIÓN: Generar enlace de WhatsApp con el detalle
   const handleWhatsAppCheckout = () => {
-    const phoneNumber = "+5351834749"; // ⚠️ Reemplaza con tu número de WhatsApp (código de país + número sin símbolos)
+    const phoneNumber = "+5351834749"; // ⚠️ Reemplaza con tu número de WhatsApp
 
     // Crear un texto con los productos y el total
     const productsList = cart
@@ -172,4 +172,4 @@ export const PlaceOrder = () => {
       */}
     </div>
   );
-};
+}
