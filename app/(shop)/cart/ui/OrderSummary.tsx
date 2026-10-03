@@ -11,7 +11,6 @@ export const OrderSummary = () => {
   const cart = useCartStore((state) => state.cart);
   const itemsInCart = useCartStore((state) => state.cart.length);
 
-  // ✅ Cálculo exacto del total sin impuestos (solo precio x cantidad)
   const { total } = useMemo(() => {
     if (!cart || cart.length === 0) {
       return { total: 0 };
@@ -29,9 +28,8 @@ export const OrderSummary = () => {
     }
   }, [itemsInCart, router]);
 
-  if (itemsInCart === 0) return <p>Loading...</p>;
+  if (itemsInCart === 0) return <p>Cargando...</p>;
 
-  // 🟢 Función de WhatsApp leyendo el número desde las variables de entorno
   const handleWhatsAppCheckout = () => {
     const phoneNumber = process.env.WHATSAPP_NUMBER;
 
@@ -51,34 +49,25 @@ export const OrderSummary = () => {
   };
 
   return (
-    <div>
-      {/* 🔹 Muestra únicamente el Total exacto sin impuestos */}
-      <div className="flex justify-between items-center mb-6">
-        <span className="text-xl font-semibold">Total a Pagar:</span>
-        <span className="text-2xl font-bold text-green-600">
+    <div className="w-full flex flex-col gap-4">
+      {/* Total a Pagar */}
+      <div className="flex justify-between items-center py-2 border-b border-gray-100">
+        <span className="text-lg font-medium text-gray-600">
+          Total a Pagar:
+        </span>
+        <span className="text-xl sm:text-2xl font-bold text-green-600">
           {currencyFormat(total)}
         </span>
       </div>
 
-      {/* Botón de Contacto por WhatsApp */}
+      {/* Botón de WhatsApp adaptable a móviles */}
       <button
         onClick={handleWhatsAppCheckout}
         disabled={itemsInCart === 0}
-        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg cursor-pointer"
+        className="w-full bg-green-600 hover:bg-green-700 active:scale-95 text-white font-bold py-3.5 px-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer text-sm sm:text-base mt-2"
       >
         <span>📱 Pedir por WhatsApp</span>
       </button>
-
-      {/* 
-      // 💬 CÓDIGO ORIGINAL COMENTADO (Con impuestos y subtotales anteriores)
-      <div className="grid grid-cols-2">
-        <span>No. Productos</span>
-        <span className="text-right">
-          {itemsInCart === 1 ? "1 artículo" : `${itemsInCart} artículos`}
-        </span>
-        ...
-      </div>
-      */}
     </div>
   );
 };

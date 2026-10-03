@@ -33,7 +33,10 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="min-h-screen flex flex-col antialiased">
+    <main
+      className="min-h-screen flex flex-col antialiased"
+      suppressHydrationWarning
+    >
       <TopMenu />
       <Sidebar />
 

@@ -5,12 +5,18 @@ import clsx from "clsx";
 
 interface Props {
   quantity: number;
+  inStock?: number;
   onQuantityChanged: (value: number) => void;
 }
 
-export const QuantitySelector = ({ quantity, onQuantityChanged }: Props) => {
+export const QuantitySelector = ({
+  quantity,
+  inStock = 1, // <-- Cambiado de 99 a 1 por defecto para evitar valores erróneos
+  onQuantityChanged,
+}: Props) => {
   const onValueChanged = (value: number) => {
     if (quantity + value < 1) return;
+    if (inStock && quantity + value > inStock) return;
     onQuantityChanged(quantity + value);
   };
 
@@ -39,14 +45,21 @@ export const QuantitySelector = ({ quantity, onQuantityChanged }: Props) => {
         {/* Botón Más */}
         <button
           onClick={() => onValueChanged(+1)}
-          className="flex items-center justify-center w-10 h-10 rounded-full text-(--brand-black) transition-all duration-200 hover:bg-white hover:shadow-sm active:scale-90"
+          className={clsx(
+            "flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 active:scale-90",
+            quantity >= inStock
+              ? "text-gray-300 cursor-not-allowed"
+              : "text-(--brand-black) hover:bg-white hover:shadow-sm",
+          )}
+          disabled={quantity >= inStock}
         >
           <IoAddOutline size={22} />
         </button>
       </div>
 
       <span className="ml-4 text-[10px] font-bold uppercase tracking-widest text-gray-400 hidden sm:block">
-        Cantidad
+        Cantidad{" "}
+        {inStock && <span className="text-gray-500">(Stock: {inStock})</span>}
       </span>
     </div>
   );

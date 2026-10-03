@@ -12,7 +12,8 @@ import {
 import { LogoBrand } from "@/components";
 
 export const Footer = () => {
-  const whatsappNumber = process.env.WHATSAPP_NUMBER;
+  const whatsappNumber =
+    process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5354337636";
 
   // DEFINICIÓN DE COLORES (CSS VARIABLES INLINE)
   const brandTheme = {

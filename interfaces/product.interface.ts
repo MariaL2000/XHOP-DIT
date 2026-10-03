@@ -22,6 +22,7 @@ export interface CartProduct {
   quantity: number;
   size: Size;
   image: string;
+  inStock: number;
 }
 
 export interface ProductImage {

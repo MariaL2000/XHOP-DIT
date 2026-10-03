@@ -17,11 +17,17 @@ export const AddToCart = ({ product }: Props) => {
 
   const [size, setSize] = useState<Size | undefined>();
   const [quantity, setQuantity] = useState<number>(1);
+  const [posted, setPosted] = useState(false); // Estado opcional para avisar si falta elegir talla
 
   const hasSizes = product.sizes.length > 0;
 
   const addToCart = () => {
-    const finalSize: Size = hasSizes ? (size ?? product.sizes[0]) : Size.XS;
+    setPosted(true);
+
+    // Si el producto tiene tallas y el usuario NO ha seleccionado ninguna, detenemos la acción
+    if (hasSizes && !size) {
+      return;
+    }
 
     const cartProduct: CartProduct = {
       id: product.id,
@@ -29,13 +35,16 @@ export const AddToCart = ({ product }: Props) => {
       title: product.title,
       price: product.price,
       quantity,
-      size: finalSize,
+      // Si tiene tallas manda la seleccionada, si no tiene tallas puede ir undefined o una cadena vacía según tu interfaz
+      size: hasSizes ? (size as Size) : (undefined as unknown as Size),
       image: product.images[0],
+      inStock: product.inStock,
     };
 
     addProductToCart(cartProduct);
 
     // Reset estados
+    setPosted(false);
     setQuantity(1);
     setSize(undefined);
   };
@@ -43,12 +52,20 @@ export const AddToCart = ({ product }: Props) => {
   return (
     <div className="flex flex-col gap-6 my-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {hasSizes && (
-        <div className="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
-          <SizeSelector
-            selectedSize={size}
-            availableSizes={product.sizes}
-            onSizeChanged={setSize}
-          />
+        <div className="flex flex-col gap-2">
+          <div className="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
+            <SizeSelector
+              selectedSize={size}
+              availableSizes={product.sizes}
+              onSizeChanged={setSize}
+            />
+          </div>
+          {/* Mensaje de aviso si intenta comprar sin elegir talla */}
+          {posted && !size && (
+            <span className="text-red-500 text-xs font-medium text-center animate-pulse">
+              Por favor, selecciona una talla
+            </span>
+          )}
         </div>
       )}
 
@@ -56,7 +73,11 @@ export const AddToCart = ({ product }: Props) => {
         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
           Seleccionar Cantidad
         </span>
-        <QuantitySelector quantity={quantity} onQuantityChanged={setQuantity} />
+        <QuantitySelector
+          quantity={quantity}
+          inStock={product.inStock}
+          onQuantityChanged={setQuantity}
+        />
       </div>
 
       <button
